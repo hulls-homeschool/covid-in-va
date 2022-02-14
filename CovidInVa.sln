@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32126.317
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CovidInVa", "CovidInVa\CovidInVa.csproj", "{715A5A5D-BF5F-4E90-A1CB-7AD0D07E3A76}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{715A5A5D-BF5F-4E90-A1CB-7AD0D07E3A76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{715A5A5D-BF5F-4E90-A1CB-7AD0D07E3A76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{715A5A5D-BF5F-4E90-A1CB-7AD0D07E3A76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{715A5A5D-BF5F-4E90-A1CB-7AD0D07E3A76}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FAA70A3C-4915-46F5-8056-2F74FE8A0478}
+	EndGlobalSection
+EndGlobal
