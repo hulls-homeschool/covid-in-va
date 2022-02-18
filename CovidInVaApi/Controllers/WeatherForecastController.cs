@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace CovidInVa.Controllers;
+namespace CovidInVaApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]

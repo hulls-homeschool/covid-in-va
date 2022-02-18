@@ -1,5 +1,4 @@
-namespace CovidInVa;
-
+namespace CovidInVaApi;
 public class WeatherForecast
 {
     public DateTime Date { get; set; }
