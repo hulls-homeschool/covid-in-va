@@ -1,40 +1,66 @@
 using CovidInVaApi.Services;
+using NLog;
+using NLog.Web;
 
-var builder = WebApplication.CreateBuilder(args);
+var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
-// Open Data Portal Settings
-builder.Services.Configure<OpenDataPortalSettings>(options =>
+logger.Debug("init main");
+
+try
 {
-    var section = builder.Configuration.GetSection("OpenDataPortal");
-    if (section.Exists())
+    var builder = WebApplication.CreateBuilder(args);
+
+    // Open Data Portal Settings
+    builder.Services.Configure<OpenDataPortalSettings>(options =>
     {
-        options.AppToken = section.GetValue("AppToken", string.Empty);
-        options.Url = section.GetValue("Url", string.Empty);
+        var section = builder.Configuration.GetSection("OpenDataPortal");
+        if (section.Exists())
+        {
+            options.AppToken = section.GetValue("AppToken", string.Empty);
+            options.Url = section.GetValue("Url", string.Empty);
+        }
+    });
+
+    // Add services to the container.
+    builder.Services.AddControllers();
+
+    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
+
+    builder.Services.AddSingleton<IHostedService, OpenDataPortalService>();
+
+    // NLog
+    builder.Logging.ClearProviders();
+    builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+    builder.Host.UseNLog();
+
+    var app = builder.Build();
+
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
     }
-});
 
-// Add services to the container.
-builder.Services.AddControllers();
+    app.UseHttpsRedirection();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+    app.UseAuthorization();
 
-builder.Services.AddSingleton<IHostedService, OpenDataPortalService>();
+    app.MapControllers();
 
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.Run();
 }
+catch (Exception e)
+{
+    logger.Error(e, "Stopped program due to exception");
 
-app.UseHttpsRedirection();
+    throw;
+}
+finally
+{
+    logger.Debug("Shutting down...");
 
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
+    LogManager.Shutdown();
+}
